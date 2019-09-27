@@ -14,7 +14,7 @@ Manage client-connectors via docker compose.
 
 ----------
 
-### List of current client-connectors:
+### List of managed client-connectors:
 
 + [blebox-cc](https://github.com/SENERGY-Platform/blebox-connector/tree/dev)
 + [hue-bridge-cc](https://github.com/SENERGY-Platform/hue-bridge-connector/tree/dev)
