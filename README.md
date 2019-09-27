@@ -91,6 +91,12 @@ Communication and platform related configurations are stored in `connector.conf`
     hub_endpt =
     device_endpt =
 
+    [hub]
+    id = #leave blank for new ID or use ID of existing hub
+
+    [device]
+    id_prefix = #leave blank for new prefix or use an existing prefix
+
 #### Specific configuration
 
 Device / service types and other device specific configurations are stored in `####.conf`. The fields will vary depending on the client-connector but Device / service types can be set under the `[Senergy]` section. Device types can be identified by a `dt_` prefix and service types by `st_`.
@@ -115,3 +121,6 @@ All client-connectors logs can be accessed via `docker logs` or `portainer`.
   + If devices have been removed from the platform delete the local database at `client-connector-hub/blebox-cc/storage/devices.sqlite3` and restart the container.
 + smart-meter-cc
   + If a device is offline but connected locally the local serial port names might have changed. A local system reboot should fix the issue.
++ connecting a device not allowed after adding device
+  + Log message: "ERROR: [connector.client] connecting device ‘xyz’ to platform failed - not allowed"
+  + Restart the container.
