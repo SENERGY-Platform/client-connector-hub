@@ -112,6 +112,6 @@ All client-connectors logs can be accessed via `docker logs` or `portainer`.
   + The Z-Way client-connector can only be configured via the Z-Way web ui.
   + When in- / or excluding Z-Wave devices disable the client-connector plugin.
 + blebox-cc
-  + If the devices have been removed from the platform delete the local database at `client-connector-hub/blebox-cc/storage/devices.sqlite3` and restart the container.
+  + If devices have been removed from the platform delete the local database at `client-connector-hub/blebox-cc/storage/devices.sqlite3` and restart the container.
 + smart-meter-cc
   + If a device is offline but connected locally the local serial port names might have changed. A local system reboot should fix the issue.
