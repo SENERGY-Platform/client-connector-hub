@@ -5,7 +5,7 @@ Manage client-connectors via docker compose.
 
 ----------
 
-+ [List of current client-connectors](#list-of-current-client-connectors)
++ [List of managed client-connectors](#list-of-managed-client-connectors)
 + [Deployment](#deployment)
 + [Hub structure](#hub-structure)
 + [Configure](#configure)
