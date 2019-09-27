@@ -19,7 +19,7 @@ Manage client-connectors via docker compose.
 + [blebox-cc](https://github.com/SENERGY-Platform/blebox-connector/tree/dev)
 + [hue-bridge-cc](https://github.com/SENERGY-Platform/hue-bridge-connector/tree/dev)
 + [lifx-cc](https://github.com/SENERGY-Platform/lifx-connector/tree/dev)
-+ [smart-meter-cc](https://github.com/SENERGY-Platform/smart-meter-connector)
++ [smart-meter-cc](https://github.com/SENERGY-Platform/smart-meter-connector/tree/dev)
 + [test-cc](https://github.com/SENERGY-Platform/test-client-connector)
 + [z-way-cc](https://github.com/SENERGY-Platform/zway-connector)
 
@@ -42,6 +42,23 @@ Replace `####` with one of the names listed above or with a service name from `d
 
 ### Hub structure
 
+    client-connector-hub
+        |
+        |--- docker-compose.yml
+        |
+        |--- abc-cc
+        |        |
+        |        |--- cc-lib
+        |        |        |
+        |        |        |--- connector.conf
+        |        |
+        |        |--- storage
+        |                 |
+        |                 |--- xyz.conf
+        |                 |
+        |                 |--- ...
+        |
+        |--- ...
 
 
 ### Configure
