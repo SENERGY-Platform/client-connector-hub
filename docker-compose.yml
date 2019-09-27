@@ -1,0 +1,91 @@
+version: "3"
+
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer:arm
+    expose:
+      - 9000
+    ports:
+      - 9000:9000
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - './portainer/data:/data'
+    restart: unless-stopped
+
+  hue-bridge-cc:
+    container_name: hue-bridge-cc
+    build: https://github.com/SENERGY-Platform/hue-bridge-connector.git#dev
+    image: hue-bridge-cc
+    volumes:
+      - './hue-bridge-cc/cc-lib:/usr/src/app/cc-lib'
+      - './hue-bridge-cc/storage:/usr/src/app/storage'
+    restart: unless-stopped
+
+  smart-meter-cc:
+    container_name: smart-meter-cc
+    build: https://github.com/SENERGY-Platform/smart-meter-connector.git#dev
+    image: smart-meter-cc
+    volumes:
+      - './smart-meter-cc/cc-lib:/usr/src/app/cc-lib'
+      - './smart-meter-cc/storage:/usr/src/app/storage'
+    devices:
+      - '/dev/ttyUSB0:/dev/ttyUSB0'
+      - '/dev/ttyUSB1:/dev/ttyUSB1'
+    restart: unless-stopped
+
+  blebox-cc:
+    container_name: blebox-cc
+    build: https://github.com/SENERGY-Platform/blebox-connector.git#dev
+    image: blebox-cc
+    environment:
+      - HOST_IP
+    volumes:
+      - './blebox-cc/cc-lib:/usr/src/app/cc-lib'
+      - './blebox-cc/storage:/usr/src/app/storage'
+    restart: unless-stopped
+
+  lifx-cc:
+    container_name: lifx-cc
+    build: https://github.com/SENERGY-Platform/lifx-connector.git#dev
+    image: lifx-cc
+    volumes:
+      - './lifx-cc/cc-lib:/usr/src/app/cc-lib'
+      - './lifx-cc/storage:/usr/src/app/storage'
+    restart: unless-stopped
+
+  z-way-cc:
+    container_name: z-way-cc
+    build: https://github.com/SENERGY-Platform/zway-connector.git#dev
+    image: z-way-cc
+    expose:
+      - 8083
+    ports:
+      - 8083:8083
+    volumes:
+      - z-way-config:/opt/z-way-server/config
+      - z-way-automation-storage:/opt/z-way-server/automation/storage
+      - z-way-htdocs-smarthome-user:/opt/z-way-server/htdocs/smarthome/user
+    devices:
+      - '/dev/ttyAMA0:/dev/ttyAMA0'
+    restart: unless-stopped
+
+  test-cc:
+    container_name: test-cc
+    build: https://github.com/SENERGY-Platform/test-client-connector.git
+    image: test-cc
+    volumes:
+      - './test-cc/cc-lib:/usr/src/app/cc-lib'
+      - './test-cc/storage:/usr/src/app/storage'
+    restart: unless-stopped
+
+volumes:
+  z-way-config:
+  z-way-automation-storage:
+  z-way-htdocs-smarthome-user:
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 10.20.0.0/16
