@@ -46,7 +46,7 @@ Replace `####` with one of the names listed above or with a service name from `d
         |
         |--- docker-compose.yml
         |
-        |--- abc-cc
+        |--- ####-cc
         |        |
         |        |--- cc-lib
         |        |        |
@@ -54,7 +54,7 @@ Replace `####` with one of the names listed above or with a service name from `d
         |        |
         |        |--- storage
         |                 |
-        |                 |--- xyz.conf
+        |                 |--- ####.conf
         |                 |
         |                 |--- ...
         |
@@ -63,6 +63,42 @@ Replace `####` with one of the names listed above or with a service name from `d
 
 ### Configure
 
+All client-connectors except the Z-Way client-connector can be configured via the two config files `connector.conf` and `####.conf`.
+Configuration files will be generated on container startup. The container will restart after a config file is created.
+
+#### Communication configuration
+
+Communication and platform related configurations are stored in `connector.conf`. The following fields must be set by the user:
+
+    [connector]
+    host =
+    port =
+    tls = False
+
+    [auth]
+    host =
+    path =
+    id =
+
+    [credentials]
+    user =
+    pw =
+
+    [hub]
+    name =
+
+    [api]
+    host =
+    hub_endpt =
+    device_endpt =
+
+#### Specific configuration
+
+Device / service types and other device specific configurations are stored in `####.conf`. The fields will vary depending on the client-connector but Device / service types can be set under the `[Senergy]` section. Device types can be identified by a `dt_` prefix and service types by `st_`.
+
+    [Senergy]
+    dt_actuator =
+    st_actuate =
 
 ### Manage
 
