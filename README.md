@@ -66,6 +66,8 @@ Replace `####` with one of the names listed above or with a service name from `d
 All client-connectors except the Z-Way client-connector can be configured via the two config files `connector.conf` and `####.conf`.
 Configuration files will be generated on container startup. The container will restart after a config file is created.
 
+For configuration changes to take effect the corresponding client-connector container must be restarted.
+
 #### Communication configuration
 
 Communication and platform related configurations are stored in `connector.conf`. The following fields must be set by the user:
@@ -84,9 +86,6 @@ Communication and platform related configurations are stored in `connector.conf`
     user =
     pw =
 
-    [hub]
-    name =
-
     [api]
     host =
     hub_endpt =
@@ -100,7 +99,19 @@ Device / service types and other device specific configurations are stored in `#
     dt_actuator =
     st_actuate =
 
+
 ### Manage
+
+For easy client-connector management `portainer` can be used to start, stop, restart and delete containers.
+All client-connectors logs can be accessed via `docker logs` or `portainer`.
 
 
 ### Troubleshoot
+
++ z-way-cc
+  + The Z-Way client-connector can only be configured via the Z-Way web ui.
+  + When in- / or excluding Z-Wave devices disable the client-connector plugin.
++ blebox-cc
+  + If the devices have been removed from the platform delete the local database at client-connector-hub/blebox-cc/storage/devices.sqlite3 an restart the container.
++ smart-meter-cc
+  + If a device is offline but connected locally the local serial port names might have changed. A local system reboot should fix the issue.
