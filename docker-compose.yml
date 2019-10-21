@@ -15,7 +15,7 @@ services:
 
   hue-bridge-cc:
     container_name: hue-bridge-cc
-    build: https://github.com/SENERGY-Platform/hue-bridge-connector.git#dev
+    build: https://github.com/SENERGY-Platform/hue-bridge-connector.git
     image: hue-bridge-cc
     volumes:
       - './hue-bridge-cc/cc-lib:/usr/src/app/cc-lib'
@@ -24,7 +24,7 @@ services:
 
   smart-meter-cc:
     container_name: smart-meter-cc
-    build: https://github.com/SENERGY-Platform/smart-meter-connector.git#dev
+    build: https://github.com/SENERGY-Platform/smart-meter-connector.git
     image: smart-meter-cc
     volumes:
       - './smart-meter-cc/cc-lib:/usr/src/app/cc-lib'
@@ -36,7 +36,7 @@ services:
 
   blebox-cc:
     container_name: blebox-cc
-    build: https://github.com/SENERGY-Platform/blebox-connector.git#dev
+    build: https://github.com/SENERGY-Platform/blebox-connector.git
     image: blebox-cc
     environment:
       - HOST_IP
@@ -47,7 +47,7 @@ services:
 
   lifx-cc:
     container_name: lifx-cc
-    build: https://github.com/SENERGY-Platform/lifx-connector.git#dev
+    build: https://github.com/SENERGY-Platform/lifx-connector.git
     image: lifx-cc
     volumes:
       - './lifx-cc/cc-lib:/usr/src/app/cc-lib'
@@ -56,7 +56,7 @@ services:
 
   z-way-cc:
     container_name: z-way-cc
-    build: https://github.com/SENERGY-Platform/zway-connector.git#dev
+    build: https://github.com/SENERGY-Platform/zway-connector.git
     image: z-way-cc
     expose:
       - 8083
