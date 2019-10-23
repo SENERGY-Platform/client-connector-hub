@@ -66,6 +66,7 @@ services:
       - z-way-config:/opt/z-way-server/config
       - z-way-automation-storage:/opt/z-way-server/automation/storage
       - z-way-htdocs-smarthome-user:/opt/z-way-server/htdocs/smarthome/user
+      - z-way-zddx:/opt/z-way-server/ZDDX
     devices:
       - '/dev/ttyAMA0:/dev/ttyAMA0'
     restart: unless-stopped
@@ -83,6 +84,7 @@ volumes:
   z-way-config:
   z-way-automation-storage:
   z-way-htdocs-smarthome-user:
+  z-way-zddx:
 
 networks:
   default:
