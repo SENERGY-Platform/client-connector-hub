@@ -147,7 +147,7 @@ hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd $hub_dir
 
-echo "*********** starting client-connector-hub-updater ***********" | log
+echo "***************** starting client-connector-hub-updater *****************" | log
 echo "(hub-updater) running in '$hub_dir' with PID: '$$'" | log
 
 while true; do
