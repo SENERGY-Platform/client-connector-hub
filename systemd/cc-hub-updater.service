@@ -1,0 +1,9 @@
+[Unit]
+After=docker.service
+
+[Service]
+ExecStart=/opt/client-connector-hub/updater.sh
+Restart=always
+
+[Install]
+WantedBy=default.target
