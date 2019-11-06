@@ -148,7 +148,9 @@ hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $hub_dir
 
 echo "***************** starting client-connector-hub-updater *****************" | log
-echo "(hub-updater) running in '$hub_dir' with PID: '$$'" | log
+echo "running in: '$hub_dir'" | log
+echo "PID: '$$'" | log
+echo "check every: '$delay' seconds" | log
 
 while true; do
     sleep $delay
