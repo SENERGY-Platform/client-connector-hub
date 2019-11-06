@@ -91,7 +91,6 @@ redeployContainer() {
 
 
 updateImages() {
-    echo "(hub-updater) checking docker engine ..." | log
     if curl --silent --fail --unix-socket "/var/run/docker.sock" "http:/v1.40/info" > /dev/null; then
         echo "(hub-updater) checking for images to update ..." | log
         images=$(curl --silent --unix-socket "/var/run/docker.sock" "http:/v1.40/images/json")
