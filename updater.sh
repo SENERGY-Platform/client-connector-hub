@@ -27,11 +27,6 @@ log() {
 }
 
 
-hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $hub_dir
-echo "(hub-updater) running in '$hub_dir'" | log
-
-
 checkUrl() {
     if curl --silent --fail "$1" > /dev/null; then
         return 0
@@ -58,6 +53,7 @@ updateSelf() {
             fi
         else
             echo "(hub-updater) up-to-date" | log
+            return 2
         fi
     else
         echo "(hub-updater) checking for updates - failed" | log
@@ -141,5 +137,27 @@ updateImages() {
     fi
 }
 
-updateSelf
-updateImages
+
+delay=600
+
+if ! [ -z "$1" ]; then
+    delay=$1
+fi
+
+
+hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $hub_dir
+echo "(hub-updater) running in '$hub_dir'" | log
+
+
+while true; do
+    sleep $delay
+    if updateSelf; then
+        ./updater.sh &
+        break
+    fi
+    updateImages
+done
+
+
+exit 0
