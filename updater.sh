@@ -94,9 +94,9 @@ redeployContainer() {
 
 updateImages() {
     echo "(hub-updater) checking docker engine ..." | log
-    if curl --silent --fail --unix-socket /var/run/docker.sock http:/v1.40/info; then
+    if curl --silent --fail --unix-socket "/var/run/docker.sock" "http:/v1.40/info" > /dev/null; then
         echo "(hub-updater) checking for images to update ..." | log
-        images=$(curl --silent --unix-socket /var/run/docker.sock http:/v1.40/images/json)
+        images=$(curl --silent --unix-socket "/var/run/docker.sock" "http:/v1.40/images/json")
         num=$(echo $images | jq -r 'length')
         for ((i=0; i<=$num-1; i++)); do
             img_info=$(echo $images | jq -r ".[$i].RepoTags[0],.[$i].Id")
@@ -105,12 +105,32 @@ updateImages() {
                 img_hash=$(echo $img_info | cut -d' ' -f2)
                 img_name=$(echo $img_info | cut -d' ' -f1 | cut -d'/' -f2 | cut -d':' -f1)
                 img_tag=$(echo $img_info | cut -d' ' -f1 | cut -d'/' -f2 | cut -d':' -f2)
-                remote_img_hash=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" "https://$docker_reg/v2/$img_name/manifests/$img_tag" | jq -r '.config.digest')
-                if ! [ "$img_hash" = "$remote_img_hash" ]; then
-                    $(cd client-connector-hub && docker-compose pull "$img_name" && docker-compose up -d "$img_name" && docker image prune -f)
+                if curl --silent --fail "https://$docker_reg/v2" > /dev/null; then
+                    echo "($img_name) checking for updates ..." | log
+                    remote_img_hash=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" "https://$docker_reg/v2/$img_name/manifests/$img_tag" | jq -r '.config.digest')
+                    if ! [ "$img_hash" = "$remote_img_hash" ]; then
+                        echo "($img_name) pulling new image ..." | log
+                        if pullImage "$img_name"; then
+                            echo "($img_name) pulling new image successful" | log
+                            if containerRunningState "$img_name"; then
+                                echo "($img_name) redeploying container ..." | log
+                                if redeployContainer $img_name; then
+                                    echo "($img_name) redeploying container successful" | log
+                                    docker image prune -f > /dev/null
+                                else
+                                    echo "($img_name) redeploying container failed" | log
+                                fi
+                            fi
+                        else
+                            echo "($img_name) pulling new image failed" | log
+                        fi
+                    fi
+                else
+                    echo "($img_name) can't reach docker registry '$docker_reg'" | log
                 fi
             fi
         done
+        return 0
     else
       echo "(hub-updater) docker engine not running" | log
       return 1
@@ -118,3 +138,4 @@ updateImages() {
 }
 
 updateSelf
+updateImages
