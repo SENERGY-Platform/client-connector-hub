@@ -26,9 +26,11 @@ log() {
     done
 }
 
+
 hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $hub_dir
 echo "(hub-updater) running in '$hub_dir'" | log
+
 
 checkUrl() {
     if curl --silent --fail "$1" > /dev/null; then
@@ -37,6 +39,7 @@ checkUrl() {
         return 1
     fi
 }
+
 
 updateSelf() {
     echo "(hub-updater) checking for updates ..." | log
@@ -60,22 +63,30 @@ updateSelf() {
     fi
 }
 
-updateSelf
 
-# images=$(curl --silent --unix-socket /var/run/docker.sock http:/v1.40/images/json)
-#
-# img_num=$(echo $images | jq -r 'length')
-#
-# for ((i=0; i<=$img_num-1; i++)); do
-#         res=$(echo $images | jq -r ".[$i].RepoTags[0],.[$i].Id")
-#         img_id=$(echo $res | cut -d' ' -f2)
-#         img_reg=$(echo $res | cut -d' ' -f1 | cut -d'/' -f1)
-#         if [[ $img_reg == *"uni-leipzig.de"* ]]; then
-#                 img_name=$(echo $res | cut -d' ' -f1 | cut -d'/' -f2 | cut -d':' -f1)
-#                 img_tag=$(echo $res | cut -d' ' -f1 | cut -d'/' -f2 | cut -d':' -f2)
-#                 remote_id=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" "https://$img_reg/v2/$img_name/manifests/$img_tag" | jq -r '.config.digest')
-#                 if ! [ "$img_id" = "$remote_id" ]; then
-#                         $(cd client-connector-hub && docker-compose pull "$img_name" && docker-compose up -d "$img_name" && docker image prune -f)
-#                 fi
-#         fi
-# done
+updateImages() {
+    echo "(hub-updater) checking docker engine ..." | log
+    if curl --silent --fail --unix-socket /var/run/docker.sock http:/v1.40/info; then
+        echo "(hub-updater) checking for images to update ..." | log
+        images=$(curl --silent --unix-socket /var/run/docker.sock http:/v1.40/images/json)
+        num=$(echo $images | jq -r 'length')
+        for ((i=0; i<=$num-1; i++)); do
+            img_info=$(echo $images | jq -r ".[$i].RepoTags[0],.[$i].Id")
+            docker_reg=$(echo $img_info | cut -d' ' -f1 | cut -d'/' -f1)
+            if [[ $docker_reg == *"uni-leipzig.de"* ]]; then
+                img_hash=$(echo $img_info | cut -d' ' -f2)
+                img_name=$(echo $img_info | cut -d' ' -f1 | cut -d'/' -f2 | cut -d':' -f1)
+                img_tag=$(echo $img_info | cut -d' ' -f1 | cut -d'/' -f2 | cut -d':' -f2)
+                remote_img_hash=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" "https://$docker_reg/v2/$img_name/manifests/$img_tag" | jq -r '.config.digest')
+                if ! [ "$img_hash" = "$remote_img_hash" ]; then
+                    $(cd client-connector-hub && docker-compose pull "$img_name" && docker-compose up -d "$img_name" && docker image prune -f)
+                fi
+            fi
+        done
+    else
+      echo "(hub-updater) docker engine not running" | log
+      return 1
+    fi
+}
+
+updateSelf
