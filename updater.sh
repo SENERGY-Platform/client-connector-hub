@@ -20,10 +20,10 @@ log() {
     first=1
     while read -r line; do
         if [ "$first" -eq "1" ]; then
-            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")] $line" >> $hub_dir/cc_updater.log 2>&1
+            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")] $line" >> $hub_dir/updater.log 2>&1
             first=0
         else
-            echo "$line" >> $hub_dir/cc_updater.log 2>&1
+            echo "$line" >> $hub_dir/updater.log 2>&1
         fi
     done
 }
