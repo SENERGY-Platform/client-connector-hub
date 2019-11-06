@@ -82,6 +82,16 @@ containerRunningState() {
     fi
 }
 
+
+redeployContainer() {
+    if docker-compose up -d "$1" > /dev/null; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+
 updateImages() {
     echo "(hub-updater) checking docker engine ..." | log
     if curl --silent --fail --unix-socket /var/run/docker.sock http:/v1.40/info; then
