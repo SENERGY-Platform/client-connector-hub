@@ -71,6 +71,17 @@ pullImage() {
         return 1
     fi
 }
+
+
+containerRunningState() {
+    status=$(curl -G --silent --unix-socket "/var/run/docker.sock" --data-urlencode "filters={""name"": [""$1""]}" "http:/v1.40/containers/json" | jq -r '.[0].State')
+    if [[ $status = "running" ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 updateImages() {
     echo "(hub-updater) checking docker engine ..." | log
     if curl --silent --fail --unix-socket /var/run/docker.sock http:/v1.40/info; then
