@@ -63,7 +63,7 @@ updateSelf() {
 
 
 pullImage() {
-    if docker-compose pull "$1" > /dev/null; then
+    if docker-compose pull "$1" > /dev/null 2>&1; then
         return 0
     else
         return 1
@@ -82,7 +82,7 @@ containerRunningState() {
 
 
 redeployContainer() {
-    if docker-compose up -d "$1" > /dev/null; then
+    if docker-compose up -d "$1" > /dev/null 2>&1; then
         return 0
     else
         return 1
@@ -113,7 +113,7 @@ updateImages() {
                                 echo "($img_name) redeploying container ..." | log
                                 if redeployContainer $img_name; then
                                     echo "($img_name) redeploying container successful" | log
-                                    docker image prune -f > /dev/null
+                                    docker image prune -f > /dev/null 2>&1
                                 else
                                     echo "($img_name) redeploying container failed" | log
                                 fi
