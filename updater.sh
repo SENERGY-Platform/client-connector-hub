@@ -144,11 +144,10 @@ if ! [ -z "$1" ]; then
     delay=$1
 fi
 
-
+echo "*********** starting client-connector-hub-updater ***********" | log
 hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $hub_dir
 echo "(hub-updater) running in '$hub_dir' with PID: '$$'" | log
-
 
 while true; do
     sleep $delay
@@ -158,6 +157,5 @@ while true; do
     fi
     updateImages
 done
-
 
 exit 0
