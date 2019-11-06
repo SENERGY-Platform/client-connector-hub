@@ -155,7 +155,7 @@ echo "check every: '$delay' seconds" | log
 while true; do
     sleep $delay
     if updateSelf; then
-        ./updater.sh $delay &
+        # ./updater.sh $delay &
         echo "(hub-updater) restarting ..." | log
         break
     fi
