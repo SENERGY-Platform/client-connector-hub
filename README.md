@@ -10,6 +10,7 @@ Manage client-connectors via docker compose.
 + [Hub structure](#hub-structure)
 + [Configure](#configure)
 + [Manage](#manage)
++ [Updater](#updater)
 + [Troubleshoot](#troubleshoot)
 
 ----------
@@ -110,6 +111,13 @@ Device / service types and other device specific configurations are stored in `#
 
 For easy client-connector management `portainer` can be used to start, stop, restart and delete containers.
 All client-connectors logs can be accessed via `docker logs` or `portainer`.
+
+
+### Updater
+
+Client-connectors and the local client-connector-hub repository can be automatically updated with the provided `updater.sh` script. The script will run in the background and periodically check if new client-connector versions are available or if the client-connector-hub repository needs to be updated. If the client-connector-hub repository has been updated the script will restart for changes to take effect. If new client-connector versions will be downloaded and if a client-connector is currently running it will be redeployed.
+
+To install the updater as a systemd service navigate to the `systemd` folder and execute `./install.sh` with root privileges.
 
 
 ### Troubleshoot
