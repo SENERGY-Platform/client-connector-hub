@@ -153,7 +153,7 @@ echo "(hub-updater) running in '$hub_dir'" | log
 while true; do
     sleep $delay
     if updateSelf; then
-        ./updater.sh &
+        ./updater.sh $delay &
         break
     fi
     updateImages
