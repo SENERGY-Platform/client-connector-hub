@@ -56,6 +56,8 @@ updateSelf() {
                 echo "(hub-updater) $pull_result" | log
                 return 1
             fi
+        else
+            echo "(hub-updater) up-to-date" | log
         fi
     else
         echo "(hub-updater) checking for updates - failed" | log
@@ -124,6 +126,8 @@ updateImages() {
                         else
                             echo "($img_name) pulling new image failed" | log
                         fi
+                    else
+                        echo "($img_name) up-to-date" | log
                     fi
                 else
                     echo "($img_name) can't reach docker registry '$docker_reg'" | log
