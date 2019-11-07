@@ -169,21 +169,7 @@ updateImages() {
 }
 
 
-if [[ -z ${1+x} ]]; then
-    if [[ $1 == "install" ]]; then
-        echo "installing client-connector-hub-updater ..."
-        if installUpdaterService; then
-            echo "installation successful"
-            exit 0
-        else
-            echo "installation failed"
-            exit 1
-        fi
-    else
-        echo "unknown argument: '$1'"
-        exit 1
-    fi
-else
+if ! [[ -z $1 ]]; then
     delay=600
     if ! [[ -z "$CC_HUB_UPDATER_DELAY" ]]; then
         delay=$CC_HUB_UPDATER_DELAY
@@ -202,4 +188,18 @@ else
         updateImages
     done
     exit 0
+else
+    if [[ $1 == "install" ]]; then
+        echo "installing client-connector-hub-updater ..."
+        if installUpdaterService; then
+            echo "installation successful"
+            exit 0
+        else
+            echo "installation failed"
+            exit 1
+        fi
+    else
+        echo "unknown argument: '$1'"
+        exit 1
+    fi
 fi
