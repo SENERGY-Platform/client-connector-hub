@@ -20,10 +20,10 @@ Manage client-connectors via docker compose.
 List of managed client-connectors:
 -----------------
 
-+ [blebox-cc](https://github.com/SENERGY-Platform/blebox-connector/tree/dev)
-+ [hue-bridge-cc](https://github.com/SENERGY-Platform/hue-bridge-connector/tree/dev)
-+ [lifx-cc](https://github.com/SENERGY-Platform/lifx-connector/tree/dev)
-+ [smart-meter-cc](https://github.com/SENERGY-Platform/smart-meter-connector/tree/dev)
++ [blebox-cc](https://github.com/SENERGY-Platform/blebox-connector)
++ [hue-bridge-cc](https://github.com/SENERGY-Platform/hue-bridge-connector)
++ [lifx-cc](https://github.com/SENERGY-Platform/lifx-connector)
++ [smart-meter-cc](https://github.com/SENERGY-Platform/smart-meter-connector)
 + [test-cc](https://github.com/SENERGY-Platform/test-client-connector)
 + [z-way-cc](https://github.com/SENERGY-Platform/zway-connector)
 
@@ -34,6 +34,12 @@ Installation
 Clone this repository to `/opt/client-connector-hub` (with root privileges) or your preferred location:
 
 `cd /opt && git clone https://github.com/SENERGY-Platform/client-connector-hub.git`
+
+Next setup the following environment variables (e.g. `/etc/environment`):
+
+`CC_REPO` address of docker registry.
+
+`CC_HUB_ENVIRONMENT` set to either `dev` or `prod`.
 
 For automatic updates please see the [Updater](#updater) section.
 
@@ -136,6 +142,8 @@ Updater
 Client-connectors and the local client-connector-hub repository can be automatically updated with the provided `updater.sh` script. The script will run in the background and periodically check if new client-connector versions are available or if the client-connector-hub repository needs to be updated. If the client-connector-hub repository has been updated the script will restart for changes to take effect. New client-connector versions will be downloaded and if a client-connector is currently running it will be redeployed.
 
 To install the updater execute `./updater.sh install` with root privileges.
+
+If desired users can control how often the script will check for updates via the environment variable: `CC_HUB_UPDATER_DELAY`
 
 
 Troubleshoot
