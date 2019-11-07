@@ -109,11 +109,10 @@ Communication and platform related configurations are stored in `connector.conf`
 
 #### Specific configuration
 
-Device / service types and other device specific configurations are stored in `####.conf`. The fields will vary depending on the client-connector but Device / service types can be set under the `[Senergy]` section. Device types can be identified by a `dt_` prefix and service types by `st_`.
+Device types and other device specific configurations are stored in `####.conf`. The fields will vary depending on the client-connector but device types can be set under the `[Senergy]` section. Device types can be identified via the `dt_` prefix.
 
     [Senergy]
     dt_actuator =
-    st_actuate =
 
 
 ### Manage
