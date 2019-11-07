@@ -6,6 +6,7 @@ Manage client-connectors via docker compose.
 ----------
 
 + [List of managed client-connectors](#list-of-managed-client-connectors)
++ [Installation](#installation)
 + [Deployment](#deployment)
 + [Hub structure](#hub-structure)
 + [Configure](#configure)
@@ -23,6 +24,14 @@ Manage client-connectors via docker compose.
 + [smart-meter-cc](https://github.com/SENERGY-Platform/smart-meter-connector/tree/dev)
 + [test-cc](https://github.com/SENERGY-Platform/test-client-connector)
 + [z-way-cc](https://github.com/SENERGY-Platform/zway-connector)
+
+### Installation
+
+Clone this repository to `/opt/client-connector-hub` with root privileges:
+
+`cd /opt && git clone https://github.com/SENERGY-Platform/client-connector-hub.git`
+
+For automatic updates please see the [Updater](#updater) section.
 
 ### Deployment
 
