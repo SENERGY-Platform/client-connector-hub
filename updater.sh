@@ -169,7 +169,7 @@ updateImages() {
 }
 
 
-if [[ -z "$1" ]]; then
+if [[ -z ${1+x} ]]; then
     if [[ $1 == "install" ]]; then
         echo "installing client-connector-hub-updater ..."
         if installUpdaterService; then
