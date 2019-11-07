@@ -16,7 +16,9 @@ Manage client-connectors via docker compose.
 
 ----------
 
-### List of managed client-connectors:
+
+List of managed client-connectors:
+-----------------
 
 + [blebox-cc](https://github.com/SENERGY-Platform/blebox-connector/tree/dev)
 + [hue-bridge-cc](https://github.com/SENERGY-Platform/hue-bridge-connector/tree/dev)
@@ -25,7 +27,9 @@ Manage client-connectors via docker compose.
 + [test-cc](https://github.com/SENERGY-Platform/test-client-connector)
 + [z-way-cc](https://github.com/SENERGY-Platform/zway-connector)
 
-### Installation
+
+Installation
+-----------------
 
 Clone this repository to `/opt/client-connector-hub` (with root privileges) or your preferred location:
 
@@ -33,7 +37,9 @@ Clone this repository to `/opt/client-connector-hub` (with root privileges) or y
 
 For automatic updates please see the [Updater](#updater) section.
 
-### Deployment
+
+Deployment
+-----------------
 
 Replace `####` with one of the names listed above or with a service name from `docker-compose.yml`.
 
@@ -50,7 +56,8 @@ Replace `####` with one of the names listed above or with a service name from `d
 `docker-compose build --no-cache #### && docker-compose up -d #### && docker image prune -f`
 
 
-### Hub structure
+Hub structure
+-----------------
 
     client-connector-hub
         |
@@ -71,7 +78,8 @@ Replace `####` with one of the names listed above or with a service name from `d
         |--- ...
 
 
-### Configure
+Configure
+-----------------
 
 All client-connectors except the Z-Way client-connector can be configured via the two config files `connector.conf` and `####.conf`.
 Configuration files will be generated on container startup. The container will restart after a config file is created.
@@ -115,20 +123,23 @@ Device types and other device specific configurations are stored in `####.conf`.
     dt_actuator =
 
 
-### Manage
+Manage
+-----------------
 
 For easy client-connector management `portainer` can be used to start, stop, restart and delete containers.
 All client-connectors logs can be accessed via `docker logs` or `portainer`.
 
 
-### Updater
+Updater
+-----------------
 
 Client-connectors and the local client-connector-hub repository can be automatically updated with the provided `updater.sh` script. The script will run in the background and periodically check if new client-connector versions are available or if the client-connector-hub repository needs to be updated. If the client-connector-hub repository has been updated the script will restart for changes to take effect. New client-connector versions will be downloaded and if a client-connector is currently running it will be redeployed.
 
 To install the updater execute `./updater.sh install` with root privileges.
 
 
-### Troubleshoot
+Troubleshoot
+-----------------
 
 + z-way-cc
   + The Z-Way client-connector can only be configured via the Z-Way web ui.
