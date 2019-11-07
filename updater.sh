@@ -169,7 +169,7 @@ updateImages() {
 }
 
 
-if ! [[ -z $1 ]]; then
+if [[ -z "$1" ]]; then
     delay=600
     if ! [[ -z "$CC_HUB_UPDATER_DELAY" ]]; then
         delay=$CC_HUB_UPDATER_DELAY
