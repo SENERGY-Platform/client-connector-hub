@@ -27,15 +27,6 @@ log() {
 }
 
 
-checkUrl() {
-    if curl --silent --fail "$1" > /dev/null; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-
 updateSelf() {
     echo "(hub-updater) checking for updates ..." | log
     update_result=$(git remote update 3>&1 1>&2 2>&3 >/dev/null)
