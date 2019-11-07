@@ -27,7 +27,7 @@ Manage client-connectors via docker compose.
 
 ### Installation
 
-Clone this repository to `/opt/client-connector-hub` with root privileges:
+Clone this repository to `/opt/client-connector-hub` (with root privileges) or your preferred location:
 
 `cd /opt && git clone https://github.com/SENERGY-Platform/client-connector-hub.git`
 
@@ -125,7 +125,7 @@ All client-connectors logs can be accessed via `docker logs` or `portainer`.
 
 Client-connectors and the local client-connector-hub repository can be automatically updated with the provided `updater.sh` script. The script will run in the background and periodically check if new client-connector versions are available or if the client-connector-hub repository needs to be updated. If the client-connector-hub repository has been updated the script will restart for changes to take effect. New client-connector versions will be downloaded and if a client-connector is currently running it will be redeployed.
 
-To install the updater as a systemd service navigate to the `systemd` folder and execute `./install.sh` with root privileges.
+To install the updater execute `./updater.sh install` with root privileges.
 
 
 ### Troubleshoot
