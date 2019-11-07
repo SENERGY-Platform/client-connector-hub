@@ -21,15 +21,15 @@ hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 installUpdaterService() {
     echo "creating systemd service ..."
     echo "[Unit]
-    After=docker.service
+After=docker.service
 
-    [Service]
-    ExecStart=$hub_dir/updater.sh
-    Restart=always
+[Service]
+ExecStart=$hub_dir/updater.sh
+Restart=always
 
-    [Install]
-    WantedBy=default.target
-    " > /etc/systemd/system/cc-hub-updater.service
+[Install]
+WantedBy=default.target
+" > /etc/systemd/system/cc-hub-updater.service
     if [[ $? -eq 0 ]]; then
         if chmod 664 /etc/systemd/system/cc-hub-updater.service; then
             echo "successfully created service"
