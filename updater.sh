@@ -139,8 +139,8 @@ updateImages() {
 
 delay=600
 
-if ! [ -z "$1" ]; then
-    delay=$1
+if ! [[ -z "$CC_HUB_UPDATER_DELAY" ]]; then
+    delay=$CC_HUB_UPDATER_DELAY
 fi
 
 hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
