@@ -14,6 +14,47 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+
+hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
+installUpdaterService() {
+    echo "creating systemd service ..."
+    echo "[Unit]
+    After=docker.service
+
+    [Service]
+    ExecStart=$hub_dir/updater.sh
+    Restart=always
+
+    [Install]
+    WantedBy=default.target
+    " > /etc/systemd/system/cc-hub-updater.service
+    if [[ $? -eq 0 ]]; then
+        if chmod 664 /etc/systemd/system/cc-hub-updater.service; then
+            echo "successfully created service"
+            echo "reloading daemon ..."
+            if systemctl daemon-reload; then
+                echo "enabling systemd service ..."
+                if systemctl enable cc-hub-updater.service; then
+                    echo "successfully enabled service"
+                    return 0
+                else
+                    echo "enabling service failed"
+                fi
+            else
+                echo "reloading daemon failed"
+            fi
+        else
+            echo "setting premissions failed"
+        fi
+    else
+        echo "creating service failed"
+    fi
+    return 1
+}
+
+
 log() {
     first=1
     while read -r line; do
@@ -128,29 +169,37 @@ updateImages() {
 }
 
 
-delay=600
-
-if ! [[ -z "$CC_HUB_UPDATER_DELAY" ]]; then
-    delay=$CC_HUB_UPDATER_DELAY
-fi
-
-hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-cd $hub_dir
-
-echo "***************** starting client-connector-hub-updater *****************" | log
-echo "running in: '$hub_dir'" | log
-echo "PID: '$$'" | log
-echo "check every: '$delay' seconds" | log
-
-while true; do
-    sleep $delay
-    if updateSelf; then
-        # ./updater.sh $delay &
-        echo "(hub-updater) restarting ..." | log
-        break
+if [[ -z "$1" ]]; then
+    if [[ $1 == "install" ]]; then
+        echo "installing client-connector-hub-updater ..."
+        if installUpdaterService; then
+            echo "installation successful"
+            exit 0
+        else
+            echo "installation failed"
+            exit 1
+        fi
+    else
+        echo "unknown argument: '$1'"
+        exit 1
     fi
-    updateImages
-done
-
-exit 0
+else
+    delay=600
+    if ! [[ -z "$CC_HUB_UPDATER_DELAY" ]]; then
+        delay=$CC_HUB_UPDATER_DELAY
+    fi
+    cd $hub_dir
+    echo "***************** starting client-connector-hub-updater *****************" | log
+    echo "running in: '$hub_dir'" | log
+    echo "PID: '$$'" | log
+    echo "check every: '$delay' seconds" | log
+    while true; do
+        sleep $delay
+        if updateSelf; then
+            echo "(hub-updater) restarting ..." | log
+            break
+        fi
+        updateImages
+    done
+    exit 0
+fi
