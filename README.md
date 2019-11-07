@@ -49,15 +49,15 @@ Deployment
 
 Replace `####` with one of the names listed above or with a service name from `docker-compose.yml`.
 
-### Build client-connector
+#### Build client-connector
 
 `docker-compose build --no-cache #### && docker image prune -f`
 
-### Run client-connector
+#### Run client-connector
 
 `docker-compose up -d ####`
 
-### Build and run client-connector
+#### Build and run client-connector
 
 `docker-compose build --no-cache #### && docker-compose up -d #### && docker image prune -f`
 
@@ -92,7 +92,7 @@ Configuration files will be generated on container startup. The container will r
 
 For configuration changes to take effect the corresponding client-connector container must be restarted.
 
-### Communication configuration
+#### Communication configuration
 
 Communication and platform related configurations are stored in `connector.conf`. The following fields must be set by the user:
 
@@ -121,7 +121,7 @@ Communication and platform related configurations are stored in `connector.conf`
     [device]
     id_prefix = #leave blank for new prefix or use an existing prefix
 
-### Specific configuration
+#### Specific configuration
 
 Device types and other device specific configurations are stored in `####.conf`. The fields will vary depending on the client-connector but device types can be set under the `[Senergy]` section. Device types can be identified via the `dt_` prefix.
 
