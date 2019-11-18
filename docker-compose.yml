@@ -29,7 +29,6 @@ services:
       - './smart-meter-cc/storage:/usr/src/app/storage'
     devices:
       - '/dev/ttyUSB0:/dev/ttyUSB0'
-      - '/dev/ttyUSB1:/dev/ttyUSB1'
     restart: unless-stopped
 
   blebox-cc:
