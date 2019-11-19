@@ -168,6 +168,17 @@ updateImages() {
     fi
 }
 
+if [[ -z "$CC_HUB_ENVIRONMENT" ]]; then
+    echo "error: CC_HUB_ENVIRONMENT evironment variable not set" | log
+    exit 1
+fi
+
+
+if [[ -z "$CC_REPO" ]]; then
+    echo "error: CC_REPO evironment variable not set" | log
+    exit 1
+fi
+
 
 if [[ -z "$1" ]]; then
     delay=600
