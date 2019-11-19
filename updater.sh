@@ -123,6 +123,15 @@ redeployContainer() {
 }
 
 
+recreateContainer() {
+    if docker-compose up --no-start "$1" > /dev/null 2>&1; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+
 updateImages() {
     if curl --silent --fail --unix-socket "/var/run/docker.sock" "http:/v1.40/info" > /dev/null; then
         echo "(hub-updater) checking for images to update ..." | log
@@ -149,6 +158,14 @@ updateImages() {
                                     docker image prune -f > /dev/null 2>&1
                                 else
                                     echo "($img_name) redeploying container failed" | log
+                                fi
+                            else
+                                echo "($img_name) recreating container ..." | log
+                                if recreateContainer $img_name; then
+                                    echo "($img_name) recreating container successful" | log
+                                    docker image prune -f > /dev/null 2>&1
+                                else
+                                    echo "($img_name) recreating container failed" | log
                                 fi
                             fi
                         else
