@@ -26,6 +26,7 @@ After=docker.service
 [Service]
 ExecStart=$hub_dir/updater.sh
 Restart=always
+EnvironmentFile=/etc/environment
 
 [Install]
 WantedBy=default.target
