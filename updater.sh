@@ -132,7 +132,7 @@ recreateContainer() {
 }
 
 
-updateImages() {
+updateHub() {
     if curl --silent --fail --unix-socket "/var/run/docker.sock" "http:/v1.40/info" > /dev/null; then
         echo "(hub-updater) checking for images to update ..." | log
         images=$(curl --silent --unix-socket "/var/run/docker.sock" "http:/v1.40/images/json")
@@ -210,7 +210,7 @@ if [[ -z "$1" ]]; then
             echo "(hub-updater) restarting ..." | log
             break
         fi
-        updateImages
+        updateHub
     done
     exit 0
 else
