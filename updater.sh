@@ -113,7 +113,7 @@ containerRunningState() {
 
 
 redeployContainer() {
-    if containerRunningState "$1" then
+    if containerRunningState "$1"; then
         if docker-compose up -d "$1" > /dev/null 2>&1; then
             return 0
         fi
