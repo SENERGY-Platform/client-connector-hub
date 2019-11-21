@@ -113,20 +113,16 @@ containerRunningState() {
 
 
 redeployContainer() {
-    if docker-compose up -d "$1" > /dev/null 2>&1; then
-        return 0
+    if containerRunningState "$1" then
+        if docker-compose up -d "$1" > /dev/null 2>&1; then
+            return 0
+        fi
     else
-        return 1
+        if docker-compose up --no-start "$1" > /dev/null 2>&1; then
+            return 0
+        fi
     fi
-}
-
-
-recreateContainer() {
-    if docker-compose up --no-start "$1" > /dev/null 2>&1; then
-        return 0
-    else
-        return 1
-    fi
+    return 1
 }
 
 
@@ -149,22 +145,12 @@ updateHub() {
                         echo "($img_name) pulling new image ..." | log
                         if pullImage "$img_name"; then
                             echo "($img_name) pulling new image successful" | log
-                            if containerRunningState "$img_name"; then
-                                echo "($img_name) redeploying container ..." | log
-                                if redeployContainer $img_name; then
-                                    echo "($img_name) redeploying container successful" | log
-                                    docker image prune -f > /dev/null 2>&1
-                                else
-                                    echo "($img_name) redeploying container failed" | log
-                                fi
+                            echo "($img_name) redeploying container ..." | log
+                            if redeployContainer $img_name; then
+                                echo "($img_name) redeploying container successful" | log
+                                docker image prune -f > /dev/null 2>&1
                             else
-                                echo "($img_name) recreating container ..." | log
-                                if recreateContainer $img_name; then
-                                    echo "($img_name) recreating container successful" | log
-                                    docker image prune -f > /dev/null 2>&1
-                                else
-                                    echo "($img_name) recreating container failed" | log
-                                fi
+                                echo "($img_name) redeploying container failed" | log
                             fi
                         else
                             echo "($img_name) pulling new image failed" | log
