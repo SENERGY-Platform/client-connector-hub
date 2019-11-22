@@ -57,6 +57,9 @@ WantedBy=default.target
 
 
 log() {
+    if [ "$1" == "debug" ] && [ ! "$CC_HUB_UPDATER_DEBUG" == "true" ]; then
+        return 0
+    fi
     first=1
     while read -r line; do
         if [ "$first" -eq "1" ]; then
@@ -96,7 +99,8 @@ updateSelf() {
 
 
 pullImage() {
-    if docker-compose pull "$1" > /dev/null 2>&1; then
+    docker-compose pull "$1" 2>&1 | log debug
+    if [ $PIPESTATUS[0] == 0 ]; then
         return 0
     fi
     return 1
@@ -114,11 +118,13 @@ containerRunningState() {
 
 redeployContainer() {
     if containerRunningState "$1"; then
-        if docker-compose up -d "$1" > /dev/null 2>&1; then
+        docker-compose up -d "$1" 2>&1 | log debug
+        if [ $PIPESTATUS[0] == 0 ]; then
             return 0
         fi
     else
-        if docker-compose up --no-start "$1" > /dev/null 2>&1; then
+        docker-compose up --no-start "$1" 2>&1 | log debug
+        if [ $PIPESTATUS[0] == 0 ]; then
             return 0
         fi
     fi
