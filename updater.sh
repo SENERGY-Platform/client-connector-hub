@@ -175,8 +175,8 @@ if [[ -z "$1" ]]; then
         echo "error: CC_HUB_ENVIRONMENT evironment variable not set" | log
         exit 1
     fi
-    if [[ -z "$CC_REPO" ]]; then
-        echo "error: CC_REPO evironment variable not set" | log
+    if [[ -z "$CC_REGISTRY" ]]; then
+        echo "error: CC_REGISTRY evironment variable not set" | log
         exit 1
     fi
     delay=600

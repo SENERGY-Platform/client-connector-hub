@@ -15,7 +15,7 @@ services:
 
   hue-bridge-cc:
     container_name: hue-bridge-cc
-    image: ${CC_REPO}/hue-bridge-cc:${CC_HUB_ENVIRONMENT}
+    image: ${CC_REGISTRY}/hue-bridge-cc:${CC_HUB_ENVIRONMENT}
     volumes:
       - './hue-bridge-cc/cc-lib:/usr/src/app/cc-lib'
       - './hue-bridge-cc/storage:/usr/src/app/storage'
@@ -23,7 +23,7 @@ services:
 
   smart-meter-cc:
     container_name: smart-meter-cc
-    image: ${CC_REPO}/smart-meter-cc:${CC_HUB_ENVIRONMENT}
+    image: ${CC_REGISTRY}/smart-meter-cc:${CC_HUB_ENVIRONMENT}
     volumes:
       - './smart-meter-cc/cc-lib:/usr/src/app/cc-lib'
       - './smart-meter-cc/storage:/usr/src/app/storage'
@@ -33,7 +33,7 @@ services:
 
   blebox-cc:
     container_name: blebox-cc
-    image: ${CC_REPO}/blebox-cc:${CC_HUB_ENVIRONMENT}
+    image: ${CC_REGISTRY}/blebox-cc:${CC_HUB_ENVIRONMENT}
     environment:
       - HOST_IP
     volumes:
@@ -43,7 +43,7 @@ services:
 
   lifx-cc:
     container_name: lifx-cc
-    image: ${CC_REPO}/lifx-cc:${CC_HUB_ENVIRONMENT}
+    image: ${CC_REGISTRY}/lifx-cc:${CC_HUB_ENVIRONMENT}
     volumes:
       - './lifx-cc/cc-lib:/usr/src/app/cc-lib'
       - './lifx-cc/storage:/usr/src/app/storage'
@@ -51,7 +51,7 @@ services:
 
   z-way-cc:
     container_name: z-way-cc
-    image: ${CC_REPO}/z-way-cc:${CC_HUB_ENVIRONMENT}
+    image: ${CC_REGISTRY}/z-way-cc:${CC_HUB_ENVIRONMENT}
     expose:
       - 8083
     ports:
@@ -67,7 +67,7 @@ services:
 
   test-cc:
     container_name: test-cc
-    image: ${CC_REPO}/test-cc:${CC_HUB_ENVIRONMENT}
+    image: ${CC_REGISTRY}/test-cc:${CC_HUB_ENVIRONMENT}
     volumes:
       - './test-cc/cc-lib:/usr/src/app/cc-lib'
       - './test-cc/storage:/usr/src/app/storage'
