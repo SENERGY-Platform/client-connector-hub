@@ -26,6 +26,10 @@ log_lvl=("debug" "info" "warning" "error")
 
 hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+if [ -z "$CC_HUB_UPDATER_LOG_LVL" ]; then
+    CC_HUB_UPDATER_LOG_LVL=1
+fi
+
 
 installUpdaterService() {
     echo "creating systemd service ..."
@@ -190,9 +194,6 @@ if [[ -z "$1" ]]; then
     delay=600
     if ! [[ -z "$CC_HUB_UPDATER_DELAY" ]]; then
         delay=$CC_HUB_UPDATER_DELAY
-    fi
-    if ! [[ -z "$CC_HUB_UPDATER_LOG_LVL" ]]; then
-        CC_HUB_UPDATER_LOG_LVL=1
     fi
     cd $hub_dir
     echo "***************** starting client-connector-hub-updater *****************" | log 1
