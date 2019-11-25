@@ -63,7 +63,7 @@ log() {
     first=1
     while read -r line; do
         if [ "$first" -eq "1" ]; then
-            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")] $line" >> $hub_dir/updater.log 2>&1
+            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")] [$1] $line" >> $hub_dir/updater.log 2>&1
             first=0
         else
             echo "$line" >> $hub_dir/updater.log 2>&1
@@ -73,26 +73,26 @@ log() {
 
 
 updateSelf() {
-    echo "(hub-updater) checking for updates ..." | log
+    echo "(hub-updater) checking for updates ..." | log info
     update_result=$(git remote update 3>&1 1>&2 2>&3 >/dev/null)
     if ! [[ $update_result = *"fatal"* ]] || ! [[ $update_result = *"error"* ]]; then
         status_result=$(git status)
         if [[ $status_result = *"behind"* ]]; then
-            echo "(hub-updater) downloading and applying updates ..." | log
+            echo "(hub-updater) downloading and applying updates ..." | log info
             pull_result=$(git pull 3>&1 1>&2 2>&3 >/dev/null)
             if ! [[ $pull_result = *"fatal"* ]] || ! [[ $pull_result = *"error"* ]]; then
-                echo "(hub-updater) update success" | log
+                echo "(hub-updater) update success" | log info
                 return 0
             else
-                echo "(hub-updater) $pull_result" | log
+                echo "(hub-updater) $pull_result" | log error
                 return 1
             fi
         else
-            echo "(hub-updater) up-to-date" | log
+            echo "(hub-updater) up-to-date" | log info
             return 2
         fi
     else
-        echo "(hub-updater) checking for updates - failed" | log
+        echo "(hub-updater) checking for updates - failed" | log error
         return 1
     fi
 }
@@ -127,7 +127,7 @@ redeployContainer() {
 
 updateHub() {
     if curl --silent --fail --unix-socket "/var/run/docker.sock" "http:/v1.40/info" > /dev/null; then
-        echo "(hub-updater) checking for images to update ..." | log
+        echo "(hub-updater) checking for images to update ..." | log info
         images=$(curl --silent --unix-socket "/var/run/docker.sock" "http:/v1.40/images/json")
         num=$(echo $images | jq -r 'length')
         for ((i=0; i<=$num-1; i++)); do
@@ -138,44 +138,44 @@ updateHub() {
                 img_name=$(echo $img_info | cut -d' ' -f1 | cut -d'/' -f2 | cut -d':' -f1)
                 img_tag=$(echo $img_info | cut -d' ' -f1 | cut -d'/' -f2 | cut -d':' -f2)
                 if curl --silent --fail "https://$docker_reg/v2" > /dev/null; then
-                    echo "($img_name) checking for updates ..." | log
+                    echo "($img_name) checking for updates ..." | log info
                     remote_img_hash=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" "https://$docker_reg/v2/$img_name/manifests/$img_tag" | jq -r '.config.digest')
                     if ! [ "$img_hash" = "$remote_img_hash" ]; then
-                        echo "($img_name) pulling new image ..." | log
+                        echo "($img_name) pulling new image ..." | log info
                         if pullImage "$img_name"; then
-                            echo "($img_name) pulling new image successful" | log
-                            echo "($img_name) redeploying container ..." | log
+                            echo "($img_name) pulling new image successful" | log info
+                            echo "($img_name) redeploying container ..." | log info
                             if redeployContainer $img_name; then
-                                echo "($img_name) redeploying container successful" | log
+                                echo "($img_name) redeploying container successful" | log info
                                 docker image prune -f > /dev/null 2>&1
                             else
-                                echo "($img_name) redeploying container failed" | log
+                                echo "($img_name) redeploying container failed" | log error
                             fi
                         else
-                            echo "($img_name) pulling new image failed" | log
+                            echo "($img_name) pulling new image failed" | log error
                         fi
                     else
-                        echo "($img_name) up-to-date" | log
+                        echo "($img_name) up-to-date" | log info
                     fi
                 else
-                    echo "($img_name) can't reach docker registry '$docker_reg'" | log
+                    echo "($img_name) can't reach docker registry '$docker_reg'" | log error
                 fi
             fi
         done
         return 0
     else
-      echo "(hub-updater) docker engine not running" | log
+      echo "(hub-updater) docker engine not running" | log error
       return 1
     fi
 }
 
 if [[ -z "$1" ]]; then
     if [[ -z "$CC_HUB_ENVIRONMENT" ]]; then
-        echo "error: CC_HUB_ENVIRONMENT evironment variable not set" | log
+        echo "error: CC_HUB_ENVIRONMENT evironment variable not set" | log error
         exit 1
     fi
     if [[ -z "$CC_REGISTRY" ]]; then
-        echo "error: CC_REGISTRY evironment variable not set" | log
+        echo "error: CC_REGISTRY evironment variable not set" | log error
         exit 1
     fi
     delay=600
@@ -183,17 +183,17 @@ if [[ -z "$1" ]]; then
         delay=$CC_HUB_UPDATER_DELAY
     fi
     cd $hub_dir
-    echo "***************** starting client-connector-hub-updater *****************" | log
-    echo "running in: '$hub_dir'" | log
-    echo "PID: '$$'" | log
-    echo "check every: '$delay' seconds" | log
+    echo "***************** starting client-connector-hub-updater *****************" | log info
+    echo "running in: '$hub_dir'" | log info
+    echo "PID: '$$'" | log info
+    echo "check every: '$delay' seconds" | log info
     if [ "$CC_HUB_UPDATER_DEBUG" == "true" ]; then
-        echo "debug: on" | log
+        echo "debug: on" | log info
     fi
     while true; do
         sleep $delay
         if updateSelf; then
-            echo "(hub-updater) restarting ..." | log
+            echo "(hub-updater) restarting ..." | log info
             break
         fi
         updateHub
