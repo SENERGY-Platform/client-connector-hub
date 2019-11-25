@@ -194,6 +194,9 @@ if [[ -z "$1" ]]; then
     echo "running in: '$hub_dir'" | log
     echo "PID: '$$'" | log
     echo "check every: '$delay' seconds" | log
+    if [ "$CC_HUB_UPDATER_DEBUG" == "true" ]; then
+        echo "debug: on" | log
+    fi
     while true; do
         sleep $delay
         if updateSelf; then
