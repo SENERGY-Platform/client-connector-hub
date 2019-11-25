@@ -200,11 +200,11 @@ if [[ -z "$1" ]]; then
         delay=$CC_HUB_UPDATER_DELAY
     fi
     cd $hub_dir
-    echo "***************** starting client-connector-hub-updater *****************" | log 1
-    echo "running in: '$hub_dir'" | log 1
-    echo "PID: '$$'" | log 1
-    echo "check every: '$delay' seconds" | log 1
-    echo "log level: ${log_lvl[$CC_HUB_UPDATER_LOG_LVL]}" | log 1
+    echo "***************** starting client-connector-hub-updater *****************" | log 4
+    echo "running in: '$hub_dir'" | log 4
+    echo "PID: '$$'" | log 4
+    echo "check every: '$delay' seconds" | log 4
+    echo "log level: ${log_lvl[$CC_HUB_UPDATER_LOG_LVL]}" | log 4
     while true; do
         sleep $delay
         if updateSelf; then
