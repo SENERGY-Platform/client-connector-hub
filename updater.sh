@@ -191,6 +191,9 @@ if [[ -z "$1" ]]; then
     if ! [[ -z "$CC_HUB_UPDATER_DELAY" ]]; then
         delay=$CC_HUB_UPDATER_DELAY
     fi
+    if ! [[ -z "$CC_HUB_UPDATER_LOG_LVL" ]]; then
+        CC_HUB_UPDATER_LOG_LVL=1
+    fi
     cd $hub_dir
     echo "***************** starting client-connector-hub-updater *****************" | log 1
     echo "running in: '$hub_dir'" | log 1
