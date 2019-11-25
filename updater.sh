@@ -22,7 +22,7 @@
 # error   = 3
 
 
-log_lvl=("debug", "info", "warning", "error")
+log_lvl=("debug" "info" "warning" "error")
 
 hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
