@@ -73,10 +73,14 @@ log() {
     if [ $1 -lt $CC_HUB_UPDATER_LOG_LVL ]; then
         return 0
     fi
+    logger=""
+    if ! [[ -z "${log_lvl[$1]}" ]]; then
+        logger=" [${log_lvl[$1]}]"
+    fi
     first=1
     while read -r line; do
         if [ "$first" -eq "1" ]; then
-            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")] [${log_lvl[$1]}] $line" >> $hub_dir/updater.log 2>&1
+            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")]$logger $line" >> $hub_dir/updater.log 2>&1
             first=0
         else
             echo "$line" >> $hub_dir/updater.log 2>&1
