@@ -99,7 +99,7 @@ updateSelf() {
 
 
 pullImage() {
-    docker-compose pull "$1" 2>&1 | log debug
+    docker-compose --no-ansi pull "$1" 2>&1 | log debug
     return ${PIPESTATUS[0]}
 }
 
@@ -115,10 +115,10 @@ containerRunningState() {
 
 redeployContainer() {
     if containerRunningState "$1"; then
-        docker-compose up -d "$1" 2>&1 | log debug
+        docker-compose --no-ansi up -d "$1" 2>&1 | log debug
         return ${PIPESTATUS[0]}
     else
-        docker-compose up --no-start "$1" 2>&1 | log debug
+        docker-compose --no-ansi up --no-start "$1" 2>&1 | log debug
         return ${PIPESTATUS[0]}
     fi
     return 1
