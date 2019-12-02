@@ -83,7 +83,7 @@ log() {
             echo "[$(date +"%m.%d.%Y %I:%M:%S %p")]$logger $line" >> $hub_dir/logs/updater.log 2>&1
             first=0
         else
-            echo "$line" >> $hub_dir/updater.log 2>&1
+            echo "$line" >> $hub_dir/logs/updater.log 2>&1
         fi
     done
 }
