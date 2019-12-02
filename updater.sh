@@ -31,6 +31,9 @@ if [ -z "$CC_HUB_UPDATER_LOG_LVL" ]; then
 fi
 
 
+current_date="$(date +"%m-%d-%Y")"
+
+
 installUpdaterService() {
     echo "creating systemd service ..."
     echo "[Unit]
@@ -80,12 +83,21 @@ log() {
     first=1
     while read -r line; do
         if [ "$first" -eq "1" ]; then
-            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")]$logger $line" >> $hub_dir/updater.log 2>&1
+            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")]$logger $line" >> $hub_dir/logs/updater.log 2>&1
             first=0
         else
             echo "$line" >> $hub_dir/updater.log 2>&1
         fi
     done
+}
+
+
+rotateLog() {
+    if [ "$current_date" != "$(date +"%m-%d-%Y")" ]; then
+        cp logs/updater.log logs/updater-$current_date.log
+        truncate -s 0 logs/updater.log
+        current_date="$(date +"%m-%d-%Y")"
+    fi
 }
 
 
@@ -207,6 +219,7 @@ if [[ -z "$1" ]]; then
     echo "log level: ${log_lvl[$CC_HUB_UPDATER_LOG_LVL]}" | log 4
     while true; do
         sleep $delay
+        rotateLog
         if updateSelf; then
             echo "(hub-updater) restarting ..." | log 1
             break
