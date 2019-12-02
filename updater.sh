@@ -26,10 +26,7 @@ log_lvl=("debug" "info" "warning" "error")
 
 hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if [ -z "$CC_HUB_UPDATER_LOG_LVL" ]; then
-    CC_HUB_UPDATER_LOG_LVL=1
-fi
-
+delay=600
 
 current_date="$(date +"%m-%d-%Y")"
 
@@ -198,25 +195,41 @@ updateHub() {
     fi
 }
 
-if [[ -z "$1" ]]; then
+
+initCheck() {
+    if [ ! -d "logs" ]; then
+        mkdir logs
+    fi
+    if [ -z "$CC_HUB_UPDATER_LOG_LVL" ]; then
+        CC_HUB_UPDATER_LOG_LVL=1
+    fi
     if [[ -z "$CC_HUB_ENVIRONMENT" ]]; then
-        echo "error: CC_HUB_ENVIRONMENT evironment variable not set" | log 3
+        echo "CC_HUB_ENVIRONMENT evironment variable not set" | log 3
         exit 1
     fi
     if [[ -z "$CC_REGISTRY" ]]; then
-        echo "error: CC_REGISTRY evironment variable not set" | log 3
+        echo "CC_REGISTRY evironment variable not set" | log 3
         exit 1
     fi
-    delay=600
     if ! [[ -z "$CC_HUB_UPDATER_DELAY" ]]; then
         delay=$CC_HUB_UPDATER_DELAY
     fi
-    cd $hub_dir
+}
+
+
+strtMsg() {
     echo "***************** starting client-connector-hub-updater *****************" | log 4
     echo "running in: '$hub_dir'" | log 4
     echo "PID: '$$'" | log 4
     echo "check every: '$delay' seconds" | log 4
     echo "log level: ${log_lvl[$CC_HUB_UPDATER_LOG_LVL]}" | log 4
+}
+
+
+if [[ -z "$1" ]]; then
+    cd $hub_dir
+    initCheck
+    strtMsg
     while true; do
         sleep $delay
         rotateLog
