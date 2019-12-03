@@ -37,7 +37,7 @@ Clone this repository to `/opt/client-connector-hub` (with root privileges) or y
 
 Next setup the following environment variables (e.g. `/etc/environment`):
 
-`CC_REPO` address of docker registry.
+`CC_REGISTRY` address of docker registry.
 
 `CC_HUB_ENVIRONMENT` set to either `dev` or `prod`.
 
