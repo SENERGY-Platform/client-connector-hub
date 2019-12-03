@@ -49,17 +49,17 @@ Deployment
 
 Replace `####` with one of the names listed above or with a service name from `docker-compose.yml`.
 
-#### Build client-connector
+#### Pull client-connector
 
-`docker-compose build --no-cache #### && docker image prune -f`
+`docker-compose pull ####`
 
 #### Run client-connector
 
 `docker-compose up -d ####`
 
-#### Build and run client-connector
+#### Pull and run client-connector
 
-`docker-compose build --no-cache #### && docker-compose up -d #### && docker image prune -f`
+`docker-compose pull #### && docker-compose up -d #### && docker image prune -f`
 
 
 Hub structure
@@ -68,6 +68,14 @@ Hub structure
     client-connector-hub
         |
         |--- docker-compose.yml
+        |
+        |--- updater.sh
+        |
+        |--- logs
+        |        |
+        |        |--- updater.log
+        |        |
+        |        |--- ...
         |
         |--- ####-cc
         |        |
@@ -144,6 +152,15 @@ Client-connectors and the local client-connector-hub repository can be automatic
 To install the updater execute `./updater.sh install` with root privileges.
 
 If desired users can control how often the script will check for updates via the environment variable: `CC_HUB_UPDATER_DELAY`
+
+Logs will be written to `logs/updater.log` and the logging level can be set via the environment variable: `CC_HUB_UPDATER_LOG_LVL`.
+
+Possible log levels:
+
++ debug   = 0
++ info    = 1 (default)
++ warning = 2
++ error   = 3
 
 
 Troubleshoot
