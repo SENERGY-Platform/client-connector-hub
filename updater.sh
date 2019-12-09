@@ -222,6 +222,7 @@ strtMsg() {
     echo "running in: '$hub_dir'" | log 4
     echo "PID: '$$'" | log 4
     echo "check every: '$delay' seconds" | log 4
+    echo "environment: '$CC_HUB_ENVIRONMENT'" | log 4
     echo "log level: ${log_lvl[$CC_HUB_UPDATER_LOG_LVL]}" | log 4
 }
 
