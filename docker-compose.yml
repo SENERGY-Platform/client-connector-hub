@@ -16,6 +16,8 @@ services:
   hue-bridge-cc:
     container_name: hue-bridge-cc
     image: ${CC_REGISTRY}/hue-bridge-cc:${CC_HUB_ENVIRONMENT}
+    environment:
+      - HOST_IP
     volumes:
       - './hue-bridge-cc/cc-lib:/usr/src/app/cc-lib'
       - './hue-bridge-cc/storage:/usr/src/app/storage'
