@@ -203,6 +203,10 @@ initCheck() {
     if [ -z "$CC_HUB_UPDATER_LOG_LVL" ]; then
         CC_HUB_UPDATER_LOG_LVL=1
     fi
+    if ! command -v jq >/dev/null 2>&1; then
+        echo "dependency 'jq' not installed" | log 3
+        exit 1
+    fi
     if [[ -z "$CC_HUB_ENVIRONMENT" ]]; then
         echo "CC_HUB_ENVIRONMENT evironment variable not set" | log 3
         exit 1
