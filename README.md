@@ -91,9 +91,9 @@ If updates are handled manually run `./load_env.sh update` after every `git pull
 
 ### Environment
 
-The following envrionment variables are provided by the hub and can be used by developers:
+The following environment variables are provided by the hub and can be used by developers:
 
- - `CC_HUB_HOST_IP` the IP address assigened to the docker host.
+ - `CC_HUB_HOST_IP` the IP address assigned to the docker host.
 
 ---
 
@@ -116,7 +116,8 @@ Navigate to the client-connector-hub repository and replace `####` with one of t
 
  - Install client-connector: `docker-compose pull ####`
  - Run client-connector: `docker-compose up -d ####`
- - Install and run client-connector: `docker-compose pull #### && docker-compose up -d #### && docker image prune -f`
+ - Install and run client-connector: `docker-compose pull #### && docker-compose up -d ####`
+ - Cleanup old images: `docker image prune -f`
 
 ---
 
