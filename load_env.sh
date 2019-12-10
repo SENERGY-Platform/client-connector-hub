@@ -15,16 +15,6 @@
 #   limitations under the License.
 
 
-if ! command -v truncate >/dev/null 2>&1; then
-    echo "dependency 'truncate' not installed"
-    exit 1
-fi
-if ! command -v ip >/dev/null 2>&1; then
-    echo "dependency 'ip' not installed"
-    exit 1
-fi
-
-
 hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 conf_file="hub.conf"
