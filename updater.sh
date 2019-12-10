@@ -204,6 +204,8 @@ initCheck() {
         echo "dependency 'jq' not installed" | log 3
         exit 1
     fi
+    if ! command -v truncate >/dev/null 2>&1; then
+        echo "dependency 'truncate' not installed" | log 3
         exit 1
     fi
 }
