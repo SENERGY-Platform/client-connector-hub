@@ -78,6 +78,7 @@ The hub environment and updater can be configured via the `hub.conf` file:
 ### Update
 
 **Automatic**
+
 Client-connectors and the local client-connector-hub repository can be automatically updated with the provided `updater.sh` script. The script will run in the background and periodically check if new client-connector versions are available or if the client-connector-hub repository needs to be updated. If the client-connector-hub repository has been updated the script will restart for changes to take effect. New client-connector versions will be downloaded and redeployed.
 
 To start automatic updates execute: `sudo systemctl start cc-hub-updater.service`.
@@ -85,6 +86,7 @@ To start automatic updates execute: `sudo systemctl start cc-hub-updater.service
 Logs will be written to `logs/updater.log` and rotated every 24h.
 
 **Manual**
+
 If updates are handled manually run `./load_env.sh update` after every `git pull` and reload your session.
 
 ---
