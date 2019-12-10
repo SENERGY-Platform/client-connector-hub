@@ -240,7 +240,8 @@ if [[ -z "$1" ]]; then
 else
     if [[ $1 == "install" ]]; then
         echo "installing client-connector-hub-updater ..."
-        ./$hub_dir/load_env.sh install
+        cd $hub_dir
+        ./load_env.sh install
         if installUpdaterService; then
             echo "installation successful"
             exit 0
