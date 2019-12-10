@@ -37,7 +37,7 @@ services:
     container_name: blebox-cc
     image: ${CC_REGISTRY}/blebox-cc:${CC_HUB_ENVIRONMENT}
     environment:
-      - HOST_IP${CC_HUB_HOST_IP}
+      - HOST_IP=${CC_HUB_HOST_IP}
     volumes:
       - './blebox-cc/cc-lib:/usr/src/app/cc-lib'
       - './blebox-cc/storage:/usr/src/app/storage'
