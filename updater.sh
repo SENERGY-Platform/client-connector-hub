@@ -107,6 +107,7 @@ updateSelf() {
             echo "(hub-updater) downloading and applying updates ..." | log 1
             pull_result=$(git pull 3>&1 1>&2 2>&3 >/dev/null)
             if ! [[ $pull_result = *"fatal"* ]] || ! [[ $pull_result = *"error"* ]]; then
+                echo "(hub-updater) $(./load_env.sh update)" | log 1
                 echo "(hub-updater) update success" | log 1
                 return 0
             else
@@ -230,7 +231,6 @@ if [[ -z "$1" ]]; then
         sleep $CC_HUB_UPDATER_DELAY
         rotateLog
         if updateSelf; then
-            ./load_env.sh update | log 1
             echo "(hub-updater) restarting ..." | log 1
             break
         fi
