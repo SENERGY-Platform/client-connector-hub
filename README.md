@@ -47,8 +47,6 @@
         |
         |--- ...
 
----
-
 ### Installation
 
 Clone this repository to your preferred location (for example `/opt/client-connector-hub`):
@@ -97,6 +95,7 @@ The following envrionment variables are provided by the hub and can be used by d
 
  - `CC_HUB_HOST_IP` the IP address assigened to the docker host.
 
+---
 
 ## Client-Connectors
 
