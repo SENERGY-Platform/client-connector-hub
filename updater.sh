@@ -215,7 +215,7 @@ strtMsg() {
     echo "***************** starting client-connector-hub-updater *****************" | log 4
     echo "running in: '$hub_dir'" | log 4
     echo "PID: '$$'" | log 4
-    echo "check every: '$delay' seconds" | log 4
+    echo "check every: '$CC_HUB_UPDATER_DELAY' seconds" | log 4
     echo "environment: '$CC_HUB_ENVIRONMENT'" | log 4
     echo "log level: ${log_lvl[$CC_HUB_UPDATER_LOG_LVL]}" | log 4
 }
@@ -223,12 +223,14 @@ strtMsg() {
 
 if [[ -z "$1" ]]; then
     cd $hub_dir
+    source ./load_env.sh
     initCheck
     strtMsg
     while true; do
-        sleep $delay
+        sleep $CC_HUB_UPDATER_DELAY
         rotateLog
         if updateSelf; then
+            ./load_env.sh update | log 1
             echo "(hub-updater) restarting ..." | log 1
             break
         fi
@@ -238,6 +240,7 @@ if [[ -z "$1" ]]; then
 else
     if [[ $1 == "install" ]]; then
         echo "installing client-connector-hub-updater ..."
+        ./$hub_dir/load_env.sh install
         if installUpdaterService; then
             echo "installation successful"
             exit 0
