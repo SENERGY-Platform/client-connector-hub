@@ -42,6 +42,7 @@ env_vars=(
 
 
 initHubConf() {
+    echo "creating $conf_file ..."
     truncate -s 0 $hub_dir/$conf_file
     for var in "${conf_vars[@]}"; do
         echo "$var" >> $hub_dir/$conf_file
@@ -50,6 +51,7 @@ initHubConf() {
 
 
 updateHubConf() {
+    echo "updating $conf_file ..."
     truncate -s 0 $hub_dir/$conf_file
     for var in "${conf_vars[@]}"; do
         var_name=$(echo "$var" | cut -d'=' -f1)
@@ -82,12 +84,10 @@ if [[ -z "$1" ]]; then
 else
     case "$1" in
         install)
-            echo "creating $conf_file ..."
             initHubConf
             exit 0
             ;;
         update)
-            echo "updating $conf_file ..."
             loadHubConf
             updateHubConf
             exit 0
