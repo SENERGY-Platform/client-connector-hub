@@ -26,8 +26,6 @@ log_lvl=("debug" "info" "warning" "error")
 
 hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# delay=600
-
 current_date="$(date +"%m-%d-%Y")"
 
 
@@ -207,6 +205,10 @@ initCheck() {
     fi
     if ! command -v truncate >/dev/null 2>&1; then
         echo "dependency 'truncate' not installed" | log 3
+        exit 1
+    fi
+    if ! command -v ip >/dev/null 2>&1; then
+        echo "dependency 'ip' not installed"
         exit 1
     fi
 }
