@@ -13,8 +13,6 @@
 	 - [Management](#management)
 	 - [Troubleshoot](#troubleshoot)
 
----
-
 ## Hub
 
 ### Structure
@@ -49,6 +47,8 @@
         |
         |--- ...
 
+---
+
 ### Installation
 
 Clone this repository to your preferred location (for example `/opt/client-connector-hub`):
@@ -64,6 +64,8 @@ Navigate to the repository you just created and choose **one** of the options be
 
 Reboot or reload your session for changes to take effect.
 
+---
+
 ### Configuration
 
 The hub environment and updater can be configured via the `hub.conf` file:
@@ -72,6 +74,8 @@ The hub environment and updater can be configured via the `hub.conf` file:
  - `CC_REGISTRY` address of docker registry.
  - `CC_HUB_UPDATER_DELAY` control how often automatic updates run.
  - `CC_HUB_UPDATER_LOG_LVL` set logging level for automatic updater. (`0`: debug, `1`: info, `2`: warning, `3`: error)
+
+---
 
 ### Update
 
@@ -85,11 +89,14 @@ Logs will be written to `logs/updater.log` and rotated every 24h.
 **Manual**
 If updates are handled manually run `./load_env.sh update` after every `git pull` and reload your session.
 
+---
+
 ### Environment
 
 The following envrionment variables are provided by the hub and can be used by developers:
 
  - `CC_HUB_HOST_IP` the IP address assigened to the docker host.
+
 
 ## Client-Connectors
 
@@ -102,6 +109,8 @@ The following envrionment variables are provided by the hub and can be used by d
 - [test-cc](https://github.com/SENERGY-Platform/test-client-connector)
 - [z-way-cc](https://github.com/SENERGY-Platform/zway-connector)
 
+---
+
 ### Deployment
 
 Navigate to the client-connector-hub repository and replace `####` with one of the names listed above or with a service name from `docker-compose.yml`.
@@ -109,6 +118,8 @@ Navigate to the client-connector-hub repository and replace `####` with one of t
  - Install client-connector: `docker-compose pull ####`
  - Run client-connector: `docker-compose up -d ####`
  - Install and run client-connector: `docker-compose pull #### && docker-compose up -d #### && docker image prune -f`
+
+---
 
 ### Configuration
 
@@ -153,10 +164,14 @@ Device types and other device specific configurations are stored in `####.conf`.
     [Senergy]
     dt_actuator =
 
+---
+
 ### Management
 
 For easy client-connector management `portainer` can be used to start, stop, restart and delete containers.
 All client-connectors logs can be accessed via `docker logs` or `portainer`.
+
+---
 
 ### Troubleshoot
 
