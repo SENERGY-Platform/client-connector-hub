@@ -41,6 +41,19 @@ env_vars=(
 )
 
 
+installHubEnvLoader() {
+    g_bashrc="/etc/bash.bashrc"
+    line="source /opt/client-connector-hub/load_env.sh"
+    if ! grep -qxF "$line" $g_bashrc; then
+        echo "updating $g_bashrc ..."
+        echo "
+# Provide environment variables for client-connector-hub
+$line
+" >> $g_bashrc
+    fi
+}
+
+
 initHubConf() {
     echo "creating $conf_file ..."
     truncate -s 0 $hub_dir/$conf_file
@@ -85,6 +98,7 @@ else
     case "$1" in
         install)
             initHubConf
+            installHubEnvLoader
             exit 0
             ;;
         update)
