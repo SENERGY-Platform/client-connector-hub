@@ -28,6 +28,7 @@ conf_vars=(
 
 env_vars=(
     "CC_HUB_HOST_IP=$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)"
+    "CC_HUB_PATH=$hub_dir"
 )
 
 
