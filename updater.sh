@@ -225,7 +225,6 @@ strtMsg() {
 
 
 if [[ -z "$1" ]]; then
-    cd $hub_dir
     source ./load_env.sh
     initCheck
     strtMsg
@@ -242,7 +241,6 @@ if [[ -z "$1" ]]; then
 else
     if [[ $1 == "install" ]]; then
         echo "installing client-connector-hub-updater ..."
-        cd $hub_dir
         ./load_env.sh install
         if installUpdaterService; then
             echo "installation successful"
