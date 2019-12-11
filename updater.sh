@@ -24,8 +24,6 @@
 
 log_lvl=("debug" "info" "warning" "error")
 
-hub_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 current_date="$(date +"%m-%d-%Y")"
 
 
@@ -35,7 +33,7 @@ installUpdaterService() {
 After=docker.service
 
 [Service]
-ExecStart=$hub_dir/updater.sh
+ExecStart=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/updater.sh
 Restart=always
 EnvironmentFile=/etc/environment
 
@@ -78,10 +76,10 @@ log() {
     first=1
     while read -r line; do
         if [ "$first" -eq "1" ]; then
-            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")]$logger $line" >> $hub_dir/logs/updater.log 2>&1
+            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")]$logger $line" >> $CC_HUB_PATH/logs/updater.log 2>&1
             first=0
         else
-            echo "$line" >> $hub_dir/logs/updater.log 2>&1
+            echo "$line" >> $CC_HUB_PATH/logs/updater.log 2>&1
         fi
     done
 }
@@ -216,7 +214,7 @@ initCheck() {
 
 strtMsg() {
     echo "***************** starting client-connector-hub-updater *****************" | log 4
-    echo "running in: '$hub_dir'" | log 4
+    echo "running in: '$CC_HUB_PATH'" | log 4
     echo "check every: '$CC_HUB_UPDATER_DELAY' seconds" | log 4
     echo "environment: '$CC_HUB_ENVIRONMENT'" | log 4
     echo "log level: '${log_lvl[$CC_HUB_UPDATER_LOG_LVL]}'" | log 4
