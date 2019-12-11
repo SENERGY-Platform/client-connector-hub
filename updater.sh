@@ -222,6 +222,7 @@ strtMsg() {
 }
 
 
+cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [[ -z "$1" ]]; then
     source ./load_env.sh
     initCheck
