@@ -35,7 +35,6 @@ After=docker.service
 [Service]
 ExecStart=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/updater.sh
 Restart=always
-EnvironmentFile=/etc/environment
 
 [Install]
 WantedBy=default.target
