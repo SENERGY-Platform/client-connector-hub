@@ -66,7 +66,7 @@ Reboot or reload your session for changes to take effect.
 
 ### Configuration
 
-The hub environment and updater can be configured via the `hub.conf` file:
+The hub environment and updater can be configured via the `$CC_HUB_PATH/hub.conf` file:
 
  - `CC_HUB_ENVIRONMENT` set to either `dev` or `prod`.
  - `CC_REGISTRY` address of docker registry.
@@ -83,11 +83,11 @@ Client-connectors and the local client-connector-hub repository can be automatic
 
 To start automatic updates execute: `sudo systemctl start cc-hub-updater.service`.
 
-Logs will be written to `logs/updater.log` and rotated every 24h.
+Logs will be written to `$CC_HUB_PATH/logs/updater.log` and rotated every 24h.
 
 **Manual**
 
-If updates are handled manually run `./load_env.sh update` after every `git pull` and reload your session.
+If updates are handled manually run `$CC_HUB_PATH/load_env.sh update` after every `git pull` and reload your session.
 
 ---
 
@@ -96,6 +96,7 @@ If updates are handled manually run `./load_env.sh update` after every `git pull
 The following environment variables are provided by the hub and can be used by developers:
 
  - `CC_HUB_HOST_IP` the IP address assigned to the docker host.
+ - `CC_HUB_PATH` path to hub.
 
 ---
 
@@ -114,7 +115,7 @@ The following environment variables are provided by the hub and can be used by d
 
 ### Deployment
 
-Navigate to the client-connector-hub repository and replace `####` with one of the names listed above or with a service name from `docker-compose.yml`.
+Navigate to the client-connector-hub dictionary `cd $CC_HUB_PATH` and replace `####` with one of the names listed above or with a service name from `docker-compose.yml`.
 
  - Install client-connector: `docker-compose pull ####`
  - Run client-connector: `docker-compose up -d ####`
@@ -132,7 +133,7 @@ For configuration changes to take effect the corresponding client-connector cont
 
 **Communication configuration**
 
-Communication and platform related configurations are stored in `connector.conf`. The following fields must be set by the user:
+Communication and platform related configurations are stored in `$CC_HUB_PATH/####-cc/cc-lib/connector.conf`. The following fields must be set by the user:
 
     [connector]
     host =
@@ -161,7 +162,7 @@ Communication and platform related configurations are stored in `connector.conf`
 
 **Specific configuration**
 
-Device types and other device specific configurations are stored in `####.conf`. The fields will vary depending on the client-connector but device types can be set under the `[Senergy]` section. Device types can be identified via the `dt_` prefix.
+Device types and other device specific configurations are stored in `$CC_HUB_PATH/####-cc/storage/####.conf`. The fields will vary depending on the client-connector but device types can be set under the `[Senergy]` section. Device types can be identified via the `dt_` prefix.
 
     [Senergy]
     dt_actuator =
@@ -181,7 +182,7 @@ All client-connectors logs can be accessed via `docker logs` or `portainer`.
 	- The Z-Way client-connector can only be configured via the Z-Way web ui.
 	- When in- / or excluding Z-Wave devices disable the client-connector plugin.
 - blebox-cc
-	- If devices have been removed from the platform delete the local database at `client-connector-hub/blebox-cc/storage/devices.sqlite3` and restart the container.
+	- If devices have been removed from the platform delete the local database at `$CC_HUB_PATH/blebox-cc/storage/devices.sqlite3` and restart the container.
 - smart-meter-cc
 	- If a device is offline but connected locally the local serial port names might have changed. A local system reboot should fix the issue.
 - connecting a device not allowed after adding device
