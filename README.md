@@ -143,6 +143,7 @@ Communication and platform related configurations are stored in `$CC_HUB_PATH/##
     [auth]
     host =
     path =
+    tls = True
     id =
 
     [credentials]
@@ -153,6 +154,7 @@ Communication and platform related configurations are stored in `$CC_HUB_PATH/##
     host =
     hub_endpt =
     device_endpt =
+    tls = True
 
     [hub]
     id = #leave blank for new ID or use ID of existing hub
