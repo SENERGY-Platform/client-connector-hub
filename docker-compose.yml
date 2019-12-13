@@ -67,14 +67,6 @@ services:
       - '/dev/ttyAMA0:/dev/ttyAMA0'
     restart: unless-stopped
 
-  test-cc:
-    container_name: test-cc
-    image: ${CC_REGISTRY}/test-cc:${CC_HUB_ENVIRONMENT}
-    volumes:
-      - './test-cc/cc-lib:/usr/src/app/cc-lib'
-      - './test-cc/storage:/usr/src/app/storage'
-    restart: unless-stopped
-
 volumes:
   z-way-config:
   z-way-automation-storage:
