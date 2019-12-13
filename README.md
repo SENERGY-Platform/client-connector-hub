@@ -3,7 +3,7 @@
  - [Hub](#hub)
 	 - [Structure](#structure)
 	 - [Installation](#installation)
-	 - [Configuration](#configuration)
+	 - [Hub Configuration](#hub-configuration)
 	 - [Update](#update)
 	 - [Environment](#environment)
  - [Client-Connectors](#client-connectors)
@@ -64,7 +64,7 @@ Reboot or reload your session for changes to take effect.
 
 ---
 
-### Configuration
+### Hub Configuration
 
 The hub environment and updater can be configured via the `$CC_HUB_PATH/hub.conf` file:
 
@@ -108,7 +108,6 @@ The following environment variables are provided by the hub and can be used by d
 - [hue-bridge-cc](https://github.com/SENERGY-Platform/hue-bridge-connector)
 - [lifx-cc](https://github.com/SENERGY-Platform/lifx-connector)
 - [smart-meter-cc](https://github.com/SENERGY-Platform/smart-meter-connector)
-- [test-cc](https://github.com/SENERGY-Platform/test-client-connector)
 - [z-way-cc](https://github.com/SENERGY-Platform/zway-connector)
 
 ---
