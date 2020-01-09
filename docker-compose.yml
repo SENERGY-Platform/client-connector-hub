@@ -51,6 +51,16 @@ services:
       - './lifx-cc/storage:/usr/src/app/storage'
     restart: unless-stopped
 
+  dyson-cc:
+    container_name: dyson-cc
+    image: ${CC_REGISTRY}/dyson-cc:${CC_HUB_ENVIRONMENT}
+    environment:
+      - HOST_IP=${CC_HUB_HOST_IP}
+    volumes:
+      - './dyson-cc/cc-lib:/usr/src/app/cc-lib'
+      - './dyson-cc/storage:/usr/src/app/storage'
+    restart: unless-stopped
+
   z-way-cc:
     container_name: z-way-cc
     image: ${CC_REGISTRY}/z-way-cc:${CC_HUB_ENVIRONMENT}
