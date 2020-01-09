@@ -108,6 +108,7 @@ The following environment variables are provided by the hub and can be used by d
 - [hue-bridge-cc](https://github.com/SENERGY-Platform/hue-bridge-connector)
 - [lifx-cc](https://github.com/SENERGY-Platform/lifx-connector)
 - [smart-meter-cc](https://github.com/SENERGY-Platform/smart-meter-connector)
+- [dyson-cc](https://github.com/SENERGY-Platform/dyson-connector)
 - [z-way-cc](https://github.com/SENERGY-Platform/zway-connector)
 
 ---
