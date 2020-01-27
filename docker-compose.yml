@@ -3,7 +3,7 @@ version: "3"
 services:
   portainer:
     container_name: portainer
-    image: portainer/portainer:arm
+    image: portainer/portainer:linux-arm
     expose:
       - 9000
     ports:
