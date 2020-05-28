@@ -15,7 +15,7 @@ services:
 
   hue-bridge-cc:
     container_name: hue-bridge-cc
-    image: ${CC_REGISTRY}/hue-bridge-cc:${CC_HUB_ENVIRONMENT}
+    image: smartenergyplatform/hue-bridge-cc:${CC_HUB_ENVIRONMENT}
     environment:
       - HOST_IP=${CC_HUB_HOST_IP}
     volumes:
@@ -25,7 +25,7 @@ services:
 
   smart-meter-cc:
     container_name: smart-meter-cc
-    image: ${CC_REGISTRY}/smart-meter-cc:${CC_HUB_ENVIRONMENT}
+    image: smartenergyplatform/smart-meter-cc:${CC_HUB_ENVIRONMENT}
     volumes:
       - './smart-meter-cc/cc-lib:/usr/src/app/cc-lib'
       - './smart-meter-cc/storage:/usr/src/app/storage'
@@ -35,7 +35,7 @@ services:
 
   blebox-cc:
     container_name: blebox-cc
-    image: ${CC_REGISTRY}/blebox-cc:${CC_HUB_ENVIRONMENT}
+    image: smartenergyplatform/blebox-cc:${CC_HUB_ENVIRONMENT}
     environment:
       - HOST_IP=${CC_HUB_HOST_IP}
     volumes:
@@ -45,7 +45,7 @@ services:
 
   lifx-cc:
     container_name: lifx-cc
-    image: ${CC_REGISTRY}/lifx-cc:${CC_HUB_ENVIRONMENT}
+    image: smartenergyplatform/lifx-cc:${CC_HUB_ENVIRONMENT}
     volumes:
       - './lifx-cc/cc-lib:/usr/src/app/cc-lib'
       - './lifx-cc/storage:/usr/src/app/storage'
@@ -53,7 +53,7 @@ services:
 
   dyson-cc:
     container_name: dyson-cc
-    image: ${CC_REGISTRY}/dyson-cc:${CC_HUB_ENVIRONMENT}
+    image: smartenergyplatform/dyson-cc:${CC_HUB_ENVIRONMENT}
     environment:
       - HOST_IP=${CC_HUB_HOST_IP}
     volumes:
@@ -63,7 +63,7 @@ services:
 
   z-way-cc:
     container_name: z-way-cc
-    image: ${CC_REGISTRY}/z-way-cc:${CC_HUB_ENVIRONMENT}
+    image: smartenergyplatform/z-way-cc:${CC_HUB_ENVIRONMENT}
     expose:
       - 8083
     ports:
