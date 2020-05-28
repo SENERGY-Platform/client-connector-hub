@@ -167,7 +167,7 @@ updateHub() {
                 if curl --silent --fail "$CC_DOCKER_HUB_API" > /dev/null; then
                     echo "($img_name) checking for updates ..." | log 1
                     remote_img_hash=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" "$CC_DOCKER_HUB_API/$img/manifests/$img_tag" | jq -r '.config.digest')
-                    if ! [[ -z "$remote_img_hash" ]]; then
+                    if ! [[ $remote_img_hash == "null" ]]; then
                         if ! [ "$img_hash" = "$remote_img_hash" ]; then
                             echo "($img_name) pulling new image ..." | log 1
                             if pullImage "$img_name"; then
