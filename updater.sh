@@ -147,6 +147,11 @@ redeployContainer() {
 }
 
 
+getToken() {
+    curl --silent "$CC_DOCKER_HUB_AUTH?scope=repository:$1:pull&service=registry.docker.io" | jq -r '.token'
+}
+
+
 updateHub() {
     if curl --silent --fail --unix-socket "/var/run/docker.sock" "http:/v1.40/info" > /dev/null; then
         echo "(hub-updater) checking for images to update ..." | log 1
