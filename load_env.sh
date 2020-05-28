@@ -21,7 +21,8 @@ conf_file="hub.conf"
 
 conf_vars=(
     "CC_HUB_ENVIRONMENT=prod"
-    "CC_REGISTRY="
+    "CC_DOCKER_HUB_API=https://registry-1.docker.io/v2"
+    "CC_DOCKER_HUB_AUTH=https://auth.docker.io/token"
     "CC_HUB_UPDATER_DELAY=600"
     "CC_HUB_UPDATER_LOG_LVL=1"
 )
