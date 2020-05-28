@@ -158,30 +158,35 @@ updateHub() {
         images=$(curl --silent --unix-socket "/var/run/docker.sock" "http:/v1.40/images/json")
         num=$(echo $images | jq -r 'length')
         for ((i=0; i<=$num-1; i++)); do
-            img=$(echo $images | jq -r ".[$i].RepoTags[0]")
+            img_info=$(echo $images | jq -r ".[$i].RepoTags[0]")
             img_hash=$(echo $images | jq -r ".[$i].Id")
-            img_name=$(echo $img | cut -d'/' -f2 | cut -d':' -f1)
-            img_tag=$(echo $img | cut -d'/' -f2 | cut -d':' -f2)
-            if grep -q "$img_name" $CC_HUB_PATH/docker-compose.yml; then
+            img=$(echo $img_info | cut -d':' -f1)
+            img_name=$(echo $img_info | cut -d'/' -f2 | cut -d':' -f1)
+            img_tag=$(echo $img_info | cut -d':' -f2)
+            if grep -q "$img" $CC_HUB_PATH/docker-compose.yml; then
                 if curl --silent --fail "$CC_DOCKER_HUB_API" > /dev/null; then
                     echo "($img_name) checking for updates ..." | log 1
-                    remote_img_hash=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" "https://$docker_reg/v2/$img_name/manifests/$img_tag" | jq -r '.config.digest')
-                    if ! [ "$img_hash" = "$remote_img_hash" ]; then
-                        echo "($img_name) pulling new image ..." | log 1
-                        if pullImage "$img_name"; then
-                            echo "($img_name) pulling new image successful" | log 1
-                            echo "($img_name) redeploying container ..." | log 1
-                            if redeployContainer $img_name; then
-                                echo "($img_name) redeploying container successful" | log 1
-                                docker image prune -f > /dev/null 2>&1
+                    remote_img_hash=$(curl --silent --header "Accept: application/vnd.docker.distribution.manifest.v2+json" "$CC_DOCKER_HUB_API/$img/manifests/$img_tag" | jq -r '.config.digest')
+                    if ! [[ -z "$remote_img_hash" ]]; then
+                        if ! [ "$img_hash" = "$remote_img_hash" ]; then
+                            echo "($img_name) pulling new image ..." | log 1
+                            if pullImage "$img_name"; then
+                                echo "($img_name) pulling new image successful" | log 1
+                                echo "($img_name) redeploying container ..." | log 1
+                                if redeployContainer $img_name; then
+                                    echo "($img_name) redeploying container successful" | log 1
+                                    docker image prune -f > /dev/null 2>&1
+                                else
+                                    echo "($img_name) redeploying container failed" | log 3
+                                fi
                             else
-                                echo "($img_name) redeploying container failed" | log 3
+                                echo "($img_name) pulling new image failed" | log 3
                             fi
                         else
-                            echo "($img_name) pulling new image failed" | log 3
+                            echo "($img_name) up-to-date" | log 1
                         fi
                     else
-                        echo "($img_name) up-to-date" | log 1
+                      echo "($img_name) retrieving remote hash failed" | log 3
                     fi
                 else
                     echo "($img_name) can't reach docker hub '$CC_DOCKER_HUB_API'" | log 3
