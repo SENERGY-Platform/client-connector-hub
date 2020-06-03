@@ -121,7 +121,7 @@ updateSelf() {
 
 
 pullImage() {
-    docker-compose --no-ansi pull "$1" 2>&1 | log 0
+    docker pull "$1" 2>&1 | log 0
     return ${PIPESTATUS[0]}
 }
 
@@ -171,7 +171,7 @@ updateHub() {
                     if ! [[ $remote_img_hash == "null" ]]; then
                         if ! [ "$img_hash" = "$remote_img_hash" ]; then
                             echo "($img_name) pulling new image ..." | log 1
-                            if pullImage "$img_name"; then
+                            if pullImage "$img_info"; then
                                 echo "($img_name) pulling new image successful" | log 1
                                 echo "($img_name) redeploying container ..." | log 1
                                 if redeployContainer $img_name; then
